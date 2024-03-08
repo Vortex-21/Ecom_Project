@@ -1,12 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
+<% layout('layouts/boilerplate.ejs') -%>
 <body>
-        <form action="/listings/<%=listing._id%>/updateData?_method=PUT" method="POST" >
+        <form action="/listings/<%=listing._id%>/update?_method=PUT" method="POST" >
             <label for="name">Name</label>
             <input type="text" id="name" name="listing[name]" value="<%=listing.name%>">
             <br>
@@ -20,4 +14,3 @@
 
         </form>
 </body>
-</html>

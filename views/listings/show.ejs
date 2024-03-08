@@ -1,10 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ecom</title>
-</head>
+<% layout('layouts/boilerplate.ejs') -%>
 <body>
     <!-- Card for listing required -->
     <ul>
@@ -14,6 +8,8 @@
         <form action="/listings/<%=listing._id%>/edit">
             <button>Edit</button>
         </form>
+        <form action="/listings/<%=listing._id%>/delete?_method=DELETE" method="POST">
+            <button>Delete</button>
+        </form>
     </ul>
 </body>
-</html>

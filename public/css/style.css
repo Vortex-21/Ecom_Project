@@ -1,0 +1,32 @@
+.body-container{
+    background-image :url("http://res.cloudinary.com/ddxzqke9w/image/upload/v1709885886/Ecom_Dev/jwotaybo23o8y47ye87b.jpg");
+    /* background-position:center; */
+    background-size: cover;
+}
+.listings{
+    max-width:none!important;
+    display: flex !important;
+    flex-wrap: wrap !important;
+
+}
+.container{
+    max-width: 100rem!important;
+    display:flex;
+    margin-left:10rem!important;
+    margin-right:10rem!important;
+}
+
+.listing-card{
+    width:20rem!important;
+    /* height:30rem!important; */
+}
+
+.listing-link{
+    text-decoration: none;
+}
+.navbar{
+    background-color: rgb(83, 22, 22)!important;
+    color:white !important;
+    height: 4rem;
+}
+
