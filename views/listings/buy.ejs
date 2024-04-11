@@ -1,0 +1,84 @@
+<%-layout("layouts/boilerplate.ejs")%>
+<style>
+  .buy-container{
+    border:3px solid rgb(246, 126, 126);
+    margin-top:1rem;
+    border-radius:10px;
+  }
+
+  .buy-form{
+    padding:1rem;
+  }
+
+</style>
+  <div class=" buy-container">
+    <form
+      action="/listings/<%=listing.id%>/placeOrder"
+      method="POST"
+      novalidate
+      class="needs-validation buy-form"
+    >
+      <div class="row mt-3">
+        <label for="address" class="form-label">Delivery Address</label>
+        <textarea
+          class="form-control"
+          name="order[address]"
+          id="address"
+          cols="30"
+          rows="5"
+          required
+        ><%=currUser.addresses[0]%></textarea>
+      </div>
+
+      <div class="row payment-mode mt-4">
+        <h6>Choose Payment Option</h6>
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="radio"
+            name="order[payment_mode]"
+            id="pod"
+            value="pod"
+            required
+          />
+          <label class="form-check-label" for="pod"> Pay On Delivery </label>
+          <div class="valid-feedback">Looks Good!</div>
+      <div class="invalid-feedback">Please Fill out this field.</div>
+        </div>
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="radio"
+            name="order[payment_mode]"
+            id="online"
+            value="online"
+            required
+          />
+          <label class="form-check-label" for="online">
+            Other Options coming Soon
+          </label>
+          <div class="valid-feedback">Looks Good!</div>
+      <div class="invalid-feedback">Please Fill out this field.</div>
+        </div>
+      </div>
+
+      <div class="row mt-4">
+        <label for="quantity" class="form-label">Quantity</label>
+        <input
+          type="number"
+          name="order[quantity]"
+          id="quantity"
+          class="form-control"
+          value="1"
+          required
+          min="1"
+        />
+        <div class="valid-feedback">Looks Good!</div>
+      <div class="invalid-feedback">Please Fill out this field.</div>
+      </div>
+
+      <button class="row btn btn-outline-dark mt-3">Continue</button>
+    </form>
+  </div>
+  <script src="/js/validation.js"></script>
+

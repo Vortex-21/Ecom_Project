@@ -1,15 +1,57 @@
 <% layout('layouts/boilerplate.ejs') -%>
-<body>
+<style>
+    .show-container{
+        margin:auto;
+    }
+    .show-card{
+        display:flex;
+        
+    }
+</style>
     <!-- Card for listing required -->
-    <ul>
-        <li><%=listing.name%></li>
-        <li>&#8377;<%=listing.price.toLocaleString("en-IN")%></li>
-        <li><%=listing.description%></li>
-        <form action="/listings/<%=listing._id%>/edit">
-            <button>Edit</button>
-        </form>
-        <form action="/listings/<%=listing._id%>/delete?_method=DELETE" method="POST">
-            <button>Delete</button>
-        </form>
-    </ul>
-</body>
+    <div class="show-container mb-5">
+        <div class="card show-card">
+            <h1><%=listing.name%></h1>
+            <%if(!listing.image){%>
+                <img src="https://res.cloudinary.com/ddxzqke9w/image/upload/v1711967066/yqcyoqhp4l37i7fukugh.png" class="card-img-top show-img>" alt="...">
+
+            <%}%>
+            <%if(listing.image){%>
+                <img src="<%=listing.image%>" class="card-img-top show-img>" alt="...">
+            <%}%>
+            <div class="card-body">
+              <p class="card-text"><%=listing.description%></p>
+              <p class="card-text">Price: &#8377;<%=listing.price.toLocaleString("en-IN")%></p>
+            </div>
+            <div class="btns mt-3">
+                <%if(currUser && currUser.isAdmin){%>
+                    <div class="edit-btn">
+                        <form action="/listings/<%=listing._id%>/edit">
+                            <button class="btn btn-dark">Edit</button>
+                        </form>
+    
+                    </div>
+    
+                    <div class="delete-btn">
+                        <form action="/listings/<%=listing._id%>/delete?_method=DELETE" method="POST">
+                            <button class="btn btn-dark">Delete</button>
+                        </form>
+    
+                    </div>
+                <%}%>
+                
+
+                <div class="buy-btn">
+                    <form action="/listings/<%=listing._id%>/buy">
+                        <button class="btn btn-dark">Buy Now</button>
+                    </form>
+                </div>
+    
+            </div>
+
+            
+          </div>
+    </div>
+    
+    
+

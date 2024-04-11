@@ -1,4 +1,10 @@
-<nav class="navbar navbar-expand-lg navbar-dark">
+<style>
+  
+  .profile-update{
+    font-size:15px;
+  }
+</style>
+<nav class="navbar navbar-expand-md bg-body-light border-bottom sticky-top">
   <div class="container-fluid">
     <a class="navbar-brand" href="/listings">ECOM</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -6,21 +12,54 @@
     </button>
     <div class="collapse navbar-collapse " id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+       <%if(currUser && currUser.isAdmin){%>
+         <li class="nav-item">
+           <a class="nav-link active" href="/listings/create">Add a Product</a>
+         </li>
+
+       <%}%>
+
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Sign Up</a>
+          <a class="nav-link active" href="/listings/allProducts">Products</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Login</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/listings/create">Add a Product</a>
-        </li>
+
+        
+      </ul>
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+        
+          <%if(!currUser){%>
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="/customers/signUp">Sign Up</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" href="/customers/login">Login</a>
+            </li>
+          <%}%>
+         <%if(currUser){%>
+            <!-- <li class="nav-item">
+              <a class="nav-link active" href="/customers/logout">Logout</a>
+            </li> -->
+            <li class="nav-item">
+              <a class="nav-link active" href="/customers/<%=currUser.id%>/update"><%=currUser.username%></a>
+            </li>
+            <li class="nav-item">
+              <a href="/customers/<%=currUser.id%>/orders" class="nav-link active">
+                Orders
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="/customers/logout" class="nav-link active">Logout</a>
+            </li>
+            <li class="nav-item"></li>
+          <!-- <li class="nav-item">
+            
+            <a href=""></a> -->
+          </li>
+         <%}%>
+          
       </ul>
       
-      <form class="d-flex" role="search">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-light" type="submit">Search</button>
-      </form>
+      
       
     </div>
     

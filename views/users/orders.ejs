@@ -1,0 +1,54 @@
+<%-layout("layouts/boilerplate.ejs")%>
+<style>
+  .order-details-card {
+    padding: 0.7rem;
+    border: none;
+  }
+  @media screen and (min-width: 200px) {
+    .order-details-card {
+      width: 20rem;
+    }
+  }
+
+  @media screen and (min-width: 768px) {
+    .order-details-card {
+      width: 50rem;
+    }
+  }
+  .order-details {
+    border: 3px solid rgb(246, 126, 126);
+    margin: auto;
+    border-radius: 10px;
+  }
+</style>
+<div class="order-container">
+  <h1>Your Orders</h1>
+  <%for(let order of orders){%>
+  <div class="order-details mb-5">
+    <div class="order-details-card card">
+      <img
+        src="https://res.cloudinary.com/ddxzqke9w/image/upload/v1704912420/szhzohjt0zhkv5l1fv7u.jpg"
+        class="card-img-top"
+        alt="Product Image"
+        style="height: 30rem"
+      />
+      <div class="card-body">
+        
+        <div class="details mb-3">
+          <p class="card-text">Delivery Address: <%=order.address%></p>
+          <p class="card-text">Mode of payment: <%=order.payment_mode%></p>
+          <p class="card-text">Quantity: <%=order.quantity%></p>
+          <p class="card-text">
+            Total Price:Rs.<%=(order.quantity)*(order.productId.price)%>
+          </p>
+        </div>
+        <form action="/listings/<%=order.productId._id%>/buy">
+            <button class="btn btn-outline-dark">
+                Buy Again
+            </button>
+        </form>
+      </div>
+    </div>
+  </div>
+  <%}%>
+</div>

@@ -7,20 +7,21 @@ async function main() {
 }
 
 const listingSchema = new mongoose.Schema({
-    images:[
-        {
-            type:String
-        }
-    ],
     name:{
         type:String,
         required:true,
     },
+    image:
+        {
+            type:String
+        },
     price:{
         type:Number,
         required:true
     },
-    description:String
+    description:{
+        type:String,
+    }
 
 });
 

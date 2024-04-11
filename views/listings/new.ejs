@@ -1,26 +1,72 @@
 <% layout('layouts/boilerplate.ejs') -%>
 
-  <body>
-    <form action="/listings/create" method="POST">
-      <label for="image" class="form-label"></label>
+<style>
+  .creds{
+    margin-bottom:2rem;
+  }
+  .new-container{
+    border:3px solid rgb(246, 126, 126);
+    margin-top:1rem;
+    margin-bottom:1rem;
+    border-radius:10px;
+    width:fit-content;
+  }
+
+  .new-form{
+    padding:1.5rem;
+  }
+  @media screen and (min-width:200px){
+    .new-form{
+      width:20rem;
+    }
+  }
+  @media screen and (min-width:768px){
+    .new-form{
+      width:50rem;
+    }
+  }
+</style>
+
+<div class="row new-container">
+  <form
+    action="/listings/create"
+    method="POST"
+    novalidate
+    class="needs-validation new-form"
+    enctype="multipart/form-data"
+  >
+    <div class="row creds">
+      <label for="image" class="form-label">Image</label>
       <input
-        type="text"
+        type="file"
         name="listing[image]"
         id="image"
         placeholder="Enter Image URL"
         class="form-control"
+        required
       />
-      <br>
 
-      <label for="price" class="form-label"></label>
+      <div class="valid-feedback">Looks Good!</div>
+      <div class="invalid-feedback">Please Fill out this field.</div>
+    </div>
+
+    <div class="row creds">
+      <label for="price" class="form-label">Price</label>
       <input
         type="number"
         name="listing[price]"
         id="price"
         placeholder="Price"
         class="form-control"
-      /><br />
-      <label for="description" class="form-label"></label>
+        required
+      />
+
+      <div class="valid-feedback">Looks Good!</div>
+      <div class="invalid-feedback">Please Fill out this field.</div>
+    </div>
+
+    <div class="row creds">
+      <label for="description" class="form-label">Description</label>
       <textarea
         name="listing[description]"
         id="description"
@@ -28,17 +74,29 @@
         rows="10"
         placeholder="Description"
         class="form-control"
-      ></textarea
-      ><br />
-      <label for="name" class="form-label"></label>
+      ></textarea>
+
+      <div class="valid-feedback">Looks Good!</div>
+      <div class="invalid-feedback">Please Fill out this field.</div>
+    </div>
+
+    <div class="row creds">
+      <label for="name" class="form-label">Name</label>
       <input
         type="text"
         name="listing[name]"
         id="name"
         placeholder="Title"
         class="form-control"
-      /><br />
-      <button>submit</button>
-    </form>
-  </body>
+        required
+      />
 
+      <div class="valid-feedback">Looks Good!</div>
+      <div class="invalid-feedback">Please Fill out this field.</div>
+    </div>
+    <br />
+    <button class="row btn btn-outline-dark">Submit</button>
+  </form>
+</div>
+
+<script src="/js/validation.js"></script>

@@ -1,20 +1,24 @@
 <% layout('layouts/boilerplate.ejs') -%>
-  <body>
-    <!-- <h2>All Listings</h2>
-    <br> -->
-    <div class="row listings">
-      <%for(let listing of allListings){%>
-        <div class="card listing-card ms-5 mt-5" style="width: 18rem;">
-          <a href="/listings/<%=listing._id%>/show" class="listing-link">
-            <img class="card-img-top" src="https://res.cloudinary.com/ddxzqke9w/image/upload/v1704912420/szhzohjt0zhkv5l1fv7u.jpg" alt="Product Pic">
-            <div class="card-body">
-              <h5 class="card-title"><%=listing.name%></h5>
-              <p class="card-text">
-            </div>
-          </a>
+<div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 mt-2">
+  <%for(let listing of allListings){%>
+    <a href="/listings/<%=listing._id%>/show" class="listing-link">
+      <div class="card  listing-card">
+        <%if(listing.image){%>
+          <img src="<%=listing.image%>" class="card-img">
+        <%}%>
+
+        <%if(!listing.image){%>
+          <img src="https://res.cloudinary.com/ddxzqke9w/image/upload/v1711967066/yqcyoqhp4l37i7fukugh.png" class="card-img">
+        <%}%>
+        <div class="card-img-overlay">
+          <h5 class="card-title">Description: </h5>
+          <p class="card-text"><%=listing.description%></p>
         </div>
-      <%}%>
-    </div>
-  </body>
+        <p class="card-text"><%=listing.name%></p>
+      </div>
+    </a>
+  <%}%>
+</div>
+  
 
 

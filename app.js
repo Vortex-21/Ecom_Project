@@ -1,82 +1,92 @@
-require('dotenv').config()
+require("dotenv").config();
 const express = require("express");
 const app = express();
-const Listing = require("./models/listings");
 const path = require("path");
 const methodOverride = require("method-override");
-const ejsMate=require("ejs-mate")
-const {storage}=require("./cloudConfig.js")
-const multer=require("multer")
-const upload=multer({storage})
-app.engine('ejs', ejsMate);
+const ejsMate = require("ejs-mate");
+const ExpressError = require("./utils/ExpressError.js");
+const listingRouter = require("./routes/listings.js");
+const customerRouter = require("./routes/customers.js");
+const session = require("express-session");
+const flash = require("connect-flash");
+const passport = require("passport");
+const LocalStrategy = require("passport-local");
+const Customer = require("./models/customers.js");
+const wrapAsync = require("./utils/wrapAsync.js");
+const { isLoggedIn } = require("./middleware.js");
+const Order = require("./models/orders.js");
+const Listing=require("./models/listings.js");
+const multer = require("multer")
+
+
+app.engine("ejs", ejsMate);
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
-app.use(express.static(path.join(__dirname,"public")))
+app.use(express.static(path.join(__dirname, "public")));
 
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 
-//Create Listing route
-app.get("/listings/create",(req,res)=>{
-  res.render("listings/new.ejs")
+const sessionOptions = {
+  secret: "mytopsecretkey",
+  resave: false,
+  saveUninitialized: true,
+  cookie: {
+    maxAge: 7 * 24 * 3600 * 1000,
+    httpOnly: true,
+  },
+};
+
+
+ 
+
+
+
+app.use(session(sessionOptions));
+app.use(flash());
+
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(Customer.authenticate()));
+
+passport.serializeUser(Customer.serializeUser());
+passport.deserializeUser(Customer.deserializeUser());
+
+app.use((req, res, next) => {
+  res.locals.successMsg = req.flash("success");
+  res.locals.failureMsg = req.flash("error");
+  res.locals.currUser = req.user;
+  next();
 });
 
-app.post("/listings/create",async(req,res)=>{
-  
-  const newListing=new Listing(req.body.listing);
-  await newListing.save();
-  res.redirect("/listings");
-})
-  
+// Test user authentication/password saves
+// app.get("/demoUser", async (req, res) => {
+//   let testUser = new Customer({
+//     email: "abc@gmail.com",
+//     username: "Administrator",
+//     isAdmin: true,
+//     phoneNumber: "9362343270",
+//   });
+//   let result = await Customer.register(testUser, process.env.ADMINPASS);
+//   res.send(result);
+// });
+
+app.use("/listings", listingRouter);
+app.use("/customers", customerRouter);
 
 
-//Show Listing Route
-app.get("/listings/:id/show",async(req,res)=>{
-    let {id} = req.params;
-    let listing = await Listing.findById(id);
-    res.render("listings/show.ejs",{listing});
-});
-//
-
-//Edit Listing Route
-app.put("/listings/:id/update", async (req, res) => {
-  let newData = req.body.listing;
-  let { id } = req.params;
-  await Listing.findByIdAndUpdate(
-    id, 
-    { ...newData }, 
-    { runValidators: true 
-  });
-  res.send("Updated!");
+app.all("*", (req, res, next) => {
+  next(new ExpressError(404, "Page Not Found!"));
 });
 
-app.get("/listings/:id/edit", async (req, res) => {
-  let { id } = req.params;
-  let listing = await Listing.findById(id);
-  res.render("listings/edit.ejs", { listing });
-});
-//Delete Listing
-app.delete("/listings/:id/delete",async(req,res)=>{
-  let {id}=req.params;
-  await Listing.findOneAndDelete({_id:id});
-  res.redirect("/listings");
-})
-
-//All Listings route
-app.get("/listings", async (req, res) => {
-  let allListings = await Listing.find();
-  res.render("listings/index.ejs", { allListings });
-  // res.send("All Listings Route");
-});
-//
-
-app.get("/", (req, res) => {
-  res.send("Working!");
+//Error Handler
+app.use((err, req, res, next) => {
+  let { status = 500, message = "Something went Wrong!" } = err;
+  res.status(status).render("listings/error.ejs", { message });
+  // res.status(status).send(message);
 });
 
 app.listen(3000, (req, res) => {
   console.log("Listening at port 3000");
 });
-
-

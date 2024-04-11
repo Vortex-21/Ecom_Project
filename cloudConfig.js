@@ -18,13 +18,9 @@ const storage = new CloudinaryStorage({
     },
 });
 
-const upload_file=()=>{
-  cloudinary.uploader.upload("./assets/bg.jpg", 
-{ folder: "Ecom_Dev" },
-function(error, result) { console.log(result, error); });
-}
 
-upload_file();
-module.exports={cloudinary,storage,upload_file};
+
+
+module.exports={cloudinary,storage};
 
 

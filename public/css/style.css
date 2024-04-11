@@ -1,32 +1,165 @@
-.body-container{
-    background-image :url("http://res.cloudinary.com/ddxzqke9w/image/upload/v1709885886/Ecom_Dev/jwotaybo23o8y47ye87b.jpg");
-    /* background-position:center; */
-    background-size: cover;
+body {
+  font-family: "Montserrat", sans-serif !important;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  /* width:fit-content; */
 }
-.listings{
+.container {
+  flex: 1;
+  width: fit-content;
+}
+
+/* index page */
+.listing-card {
+  border: none;
+  margin-bottom: 2rem;
+}
+
+/* .listings{
     max-width:none!important;
     display: flex !important;
     flex-wrap: wrap !important;
+ 
+} */
 
+.card-img-overlay {
+  opacity: 0;
 }
-.container{
-    max-width: 100rem!important;
-    display:flex;
-    margin-left:10rem!important;
-    margin-right:10rem!important;
-}
-
-.listing-card{
-    width:20rem!important;
-    /* height:30rem!important; */
+.card-img-overlay:hover {
+  opacity: 0.7;
+  background-color: white;
+  color: black;
 }
 
-.listing-link{
-    text-decoration: none;
-}
-.navbar{
-    background-color: rgb(83, 22, 22)!important;
-    color:white !important;
-    height: 4rem;
+.card-img {
+  margin-top: 1rem;
+  height: 20rem;
+  border-radius: 10px;
 }
 
+.listing-link {
+  text-decoration: none;
+  color: black;
+}
+/* navbar */
+.navbar {
+  background-color: #f53c61 !important;
+  color: white !important;
+  font-weight: 500 !important;
+}
+.nav-link {
+  color: white !important;
+}
+
+.navbar-brand {
+  color: white !important;
+}
+
+/* .navbar-collapse{
+    background-color: #f53c61!important;
+    color:black!important;
+    max-width:none!important;
+} */
+
+.landing-page {
+  text-align: center;
+}
+
+.form-label {
+  font-weight: 500;
+}
+
+/* show listing */
+
+.card-body {
+  padding: 0;
+}
+.show-card {
+  /* width:50rem; */
+  margin-top: 3rem;
+  border: none;
+  font-weight: 500;
+}
+.show-img {
+  height: 50vh;
+  border-radius: 15px;
+}
+
+@media screen and (min-width: 200px) {
+  .show-img {
+    width: 20rem;
+  }
+}
+@media screen and (min-width: 768px) {
+  .show-img {
+    width: 50rem;
+  }
+}
+
+.btns {
+  display: flex;
+}
+
+.edit-btn {
+  margin-right: 1rem;
+}
+
+.delete-btn {
+  margin-right: 1rem;
+}
+
+/* flash messages */
+.alert {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1rem;
+  font-size: large;
+  overflow: visible;
+  overflow-wrap: break-word;
+  max-height: none;
+  max-width: none;
+  padding: 1rem;
+}
+
+/* login.ejs */
+
+@media screen and (min-width: 200px) {
+  .login-form {
+    width: 20rem;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .login-form {
+    width: 40rem;
+  }
+}
+
+/* update customer details */
+
+@media screen and (min-width: 200px) {
+  .update-form {
+    width: 20rem;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .update-form {
+    width: 40rem;
+  }
+}
+
+/* signup */
+@media screen and (min-width: 200px) {
+  .signup-form {
+    width: 20rem;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .signup-form {
+    width: 40rem;
+  }
+}

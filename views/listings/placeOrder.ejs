@@ -1,0 +1,81 @@
+<%-layout("/layouts/boilerplate.ejs")%>
+<style>
+  .list-group-item {
+    border: none !important;
+  }
+  .place-order-container{
+    
+    margin:1rem 0 1rem 0;
+  }
+
+  .place-order-details{
+    padding:1rem;
+  }
+</style>
+
+<div class="place-order-container">
+  <div class="card show-card">
+    <img
+      src="https://res.cloudinary.com/ddxzqke9w/image/upload/v1704912420/szhzohjt0zhkv5l1fv7u.jpg"
+      class="card-img-top show-img"
+      alt="..."
+    />
+    <div class="card-body">
+      <p class="card-text"><%=listing.description%></p>
+      <!-- <p class="card-text">
+          Price: &#8377;<%=listing.price.toLocaleString("en-IN")%>
+        </p> -->
+    </div>
+  </div>
+  <div class="row mt-3 place-order-details">
+    <h3>Order Details:</h3>
+    <ul class="list-group">
+      <li class="list-group-item"><b>Address</b> : <%=order.address%></li>
+      <li class="list-group-item">
+        <b>Payment Option</b> : <%=order.payment_mode%>
+      </li>
+      <li class="list-group-item"><b>Quantity</b> : <%=order.quantity%></li>
+      <li class="list-group-item">
+        <b>Order Total</b> :
+        Rs.<%=(order.quantity*listing.price).toLocaleString("en-IN")%>
+      </li>
+    </ul>
+    <form action="/listings/<%=currUser.id%>/<%=listing.id%>/checkout" method="POST">
+        <input
+          type="hidden"
+          class="form-control"
+          name="order[address]"
+          id="address"
+          value="<%=order.address%>"
+        >
+
+        <input
+            class="form-check-input"
+            type="hidden"
+            name="order[payment_mode]"
+            id="pod"
+            value="<%=order.payment_mode%>"
+          />
+
+        <input
+          class="form-check-input"
+          type="hidden"
+          name="order[quantity]"
+          id="online"
+          value="<%=order.quantity%>"
+          required
+        />
+
+        <input
+          class="form-check-input"
+          type="hidden"
+          name="order[total]"
+          id="total"
+          value="<%=order.quantity*listing.price%>"
+          required
+        />
+      
+      <button class="btn btn-outline-dark mt-3">Proceed to checkout!</button>
+    </form>
+  </div>
+</div>
