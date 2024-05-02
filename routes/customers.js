@@ -80,7 +80,7 @@ router.post(
         if (err) {
           next(err);
         }
-        req.flash("success", "Welcome to Nprint!");
+        req.flash("success", "Welcome!");
         res.redirect("/listings");
       });
     } catch (err) {
