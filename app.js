@@ -99,7 +99,7 @@ app.post(
         secure: false, // Use `true` for port 465, `false` for all other ports
         auth: {
           user: "anshumanlaskar1@gmail.com",
-          pass: "bizemjscvcracown",
+          pass: process.env.APP_PASS
         },
       });
 
