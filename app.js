@@ -132,28 +132,55 @@ app.post(
   })
 );
 
-app.get("/reset-password/:id/:token", async (req, res) => {
+// app.get("/reset-password/:id/:token", async (req, res) => {
+//   const { id, token } = req.params;
+//   // res.send(req.params);
+
+//   let user = await Customer.findById(id).select("+hash");
+//   let email = user.email;
+//   let cust = {email:email,id:id,token:token};
+
+//   if (user) {
+//     // res.send(user);
+//     const secret = JWT_SECRET + user.hash.slice(-20);
+//     try 
+//     {
+//       const payload = jwt.verify( token,secret);
+//       res.render("users/resetPassword.ejs",{cust})
+//     } 
+//     catch (error) 
+//     {
+//       throw new ExpressError(500, error.message);
+//     }
+//   } else {
+//     res.send("Invalid User!");
+//   }
+// });
+
+app.get("/reset-password/:id/:token", async (req, res,next) => {
   const { id, token } = req.params;
-  // res.send(req.params);
 
   let user = await Customer.findById(id).select("+hash");
   let email = user.email;
-  let cust = {email:email,id:id,token:token};
+  let cust = {email:email, id:id, token:token};
 
-  if (user) {
-    // res.send(user);
-    const secret = JWT_SECRET + user.hash.slice(-20);
-    try 
-    {
-      const payload = jwt.verify( token,secret);
-      res.render("users/resetPassword.ejs",{cust})
-    } 
-    catch (error) 
-    {
-      throw new ExpressError(500, error.message);
-    }
-  } else {
-    res.send("Invalid User!");
+  if (!user) {
+    return res.send("Invalid User!"); // Early return if user not found
+  }
+
+  const secret = JWT_SECRET + user.hash.slice(-20);
+  try {
+    const payload = jwt.verify(token, secret);
+    res.render("users/resetPassword.ejs", {cust});
+  } catch (error) {
+    // Check if the error is due to an expired token
+    // if (error.name === 'TokenExpiredError') {
+    //   return res.send('Your password reset token has expired. Please request a new one.');
+    // }
+    // Handle other types of errors
+    console.log("Error : ",error);
+    return next(new ExpressError(500, error.message));
+    
   }
 });
 
@@ -188,7 +215,7 @@ app.post("/reset-password/:id/:token",async(req,res)=>{
     } 
     catch (error) 
     {
-      throw new ExpressError(500, error.message);
+      return next( new ExpressError(500, error.message));
     }
   } else {
     res.send("Invalid User!");
@@ -201,7 +228,9 @@ app.all("*", (req, res, next) => {
 
 //Error Handler
 app.use((err, req, res, next) => {
+  console.log("Called!!!");
   let { status = 500, message = "Something went Wrong!" } = err;
+  console.log("status = ",status);
   res.status(status).render("listings/error.ejs", { message });
   // res.status(status).send(message);
 });
