@@ -5,6 +5,7 @@ const Customer = require("../models/customers.js");
 const Order=require("../models/orders.js");
 const passport = require("passport");
 const { saveRedirectUrl, isLoggedIn } = require("../middleware.js");
+const e = require("connect-flash");
 
 
 //show orders
@@ -27,27 +28,51 @@ router.get("/:id/orders",isLoggedIn, async(req,res)=>{
 //Update customer Details route
 router.post("/:id/update", isLoggedIn, async (req, res) => {
   let { id } = req.params;
-  let details = req.body;
-  let { username } = req.body;
+  // let details = req.body;
+  let { username,phn,email,address } = req.body;
   let existing_username = await Customer.find({ username: username });
+  
+  
+  let user = await Customer.findById(id);
+  let currUsername = user.username;
+  // let currPhn = user.phoneNumber;
+  // let addresses = user.addresses;
   // console.log(existing_username);
-  if (existing_username && existing_username.length) {
+  //update username
+  if (existing_username && existing_username.length && username!=currUsername) {
     req.flash("error", "Username already taken.");
     res.redirect(`/customers/${id}/update`);
   } else {
-    let user = await Customer.findByIdAndUpdate(id, {
-      ...details,
+    // let user = await Customer.findByIdAndUpdate(id, {
+    //   ...details,
+    // });
+    let user = await Customer.findByIdAndUpdate(id,{
+      username:username,
+      email:email,
+      phoneNumber:phn,
+      address:address
     });
     // console.log(user);
     req.login(user,(err)=>{
       if(err){
         next(err);
       }
-      req.flash("success","Details updated successfully! Please log in to your account.");
-      res.redirect("/customers/login");
+      if(username!=currUsername)
+      {req.flash("success","Details updated successfully! Please log in to your account.");
+      res.redirect("/customers/login");}
+      else{
+        req.flash("success","Details updated successfully!");
+        res.redirect("/listings")
+      }
       
     });
   }
+
+  //update phn and email 
+
+
+
+
 });
 
 router.get(
@@ -72,8 +97,9 @@ router.post(
         username: username,
         email: email,
         phoneNumber: phn,
+        address:address
       });
-      newCustomer.addresses.push(address);
+      // newCustomer.addresses.push(address);
       let registeredCustomer = await Customer.register(newCustomer, password);
       // console.log(registeredCustomer);
       req.login(registeredCustomer, (err) => {

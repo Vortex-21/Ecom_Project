@@ -29,7 +29,7 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 
-const JWT_SECRET = "mytopultrasuperkabhinahitootnevaalasupersecretkey";
+const JWT_SECRET = process.env.JWT_SECRET;
 const sessionOptions = {
   secret: "mytopsecretkey",
   resave: false,
@@ -57,17 +57,7 @@ app.use((req, res, next) => {
   next();
 });
 
-// Test user authentication/password saves
-// app.get("/demoUser", async (req, res) => {
-//   let testUser = new Customer({
-//     email: "abc@gmail.com",
-//     username: "Administrator",
-//     isAdmin: true,
-//     phoneNumber: "9362343270",
-//   });
-//   let result = await Customer.register(testUser, process.env.ADMINPASS);
-//   res.send(result);
-// });
+
 
 app.use("/listings", listingRouter);
 app.use("/customers", customerRouter);
@@ -98,7 +88,7 @@ app.post(
         port: 587,
         secure: false, // Use `true` for port 465, `false` for all other ports
         auth: {
-          user: "anshumanlaskar1@gmail.com",
+          user: process.env.EMAIL_ID   ,
           pass: process.env.APP_PASS
         },
       });
@@ -106,9 +96,9 @@ app.post(
       const mailOptions = {
         from: {
           name: "XYZ",
-          address: "anshumanlaskar1@gmail.com",
+          address: process.env.EMAIL_ID,//needs to have company email address.
         },
-        to: "anshumanlaskar2@gmail.com", //test
+        to: `${email}`, //test
         subject: "Password Reset!!!",
         text: `Go to the following link(**VALID FOR 10 MINUTES ONLY**): ${link}`,
       };
