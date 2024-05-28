@@ -181,8 +181,8 @@ app.post("/reset-password/:id/:token",async(req,res)=>{
 
   let user = await Customer.findById(id).select("+hash");
   let email = user.email;
-  let cust = {email:email,id:id,token:token};
-
+  // let cust = {email:email,id:id,token:token};
+  let username = user.username;
   if (user) {
     // res.send(user);
     const secret = JWT_SECRET + user.hash.slice(-20);
@@ -195,7 +195,7 @@ app.post("/reset-password/:id/:token",async(req,res)=>{
       if(pass1){
         user.setPassword(pass1,async()=>{
           await user.save();
-          req.flash("success","Password updated successfully!");
+          req.flash("success",`Password updated successfully against Username : ${username}!`);
           res.redirect("/customers/login");
         })
       }
@@ -218,9 +218,9 @@ app.all("*", (req, res, next) => {
 
 //Error Handler
 app.use((err, req, res, next) => {
-  console.log("Called!!!");
+  // console.log("Called!!!");
   let { status = 500, message = "Something went Wrong!" } = err;
-  console.log("status = ",status);
+  // console.log("status = ",status);
   res.status(status).render("listings/error.ejs", { message });
   // res.status(status).send(message);
 });

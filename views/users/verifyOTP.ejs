@@ -1,0 +1,13 @@
+<!-- views/users/verifyOTP.ejs -->
+<%-layout("layouts/boilerplate.ejs")%>
+<form action="/customers/verifyOTP" method="POST">
+    <label for="otpEmail" class="form-label">Enter Email verification OTP:</label>
+    <input type="text" id="otpEmail" name="otpEmail" class="form-control" required>
+    
+    <br>
+
+    <label for="otpPhone" class="form-label">Enter Phone verification OTP:</label>
+    <input type="text" id="otpPhone" name="otpPhone" class="form-control" required>
+    <button type="submit">Verify</button>
+  </form>
+  
